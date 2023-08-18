@@ -30,7 +30,13 @@ const multiplier = ref(1);
       <span>{{ creditLabel }}</span>
     </div>
 
-    <input type="range" min="0" :max="max" :value="count" @input="$emit('update', $event.target.valueAsNumber)" />
+    <input class="slider" 
+      type="range" 
+      :min="0" 
+      :max="max" 
+      :value="count" 
+      @input="$emit('update', ($event.target as HTMLInputElement).valueAsNumber)" 
+    />    
 
     <div class="adder">
       <div>
@@ -66,7 +72,7 @@ const multiplier = ref(1);
 }
 
 
-input {
+.slider {
   width: 100%;
 }
 
