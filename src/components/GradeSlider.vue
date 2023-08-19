@@ -9,7 +9,7 @@ const props = defineProps<{
 }>();
 
 defineEmits<{
-  update: (count: number) => void
+  (e: "update", count: number): void
 }>();
 
 
@@ -83,6 +83,10 @@ const multiplier = ref(1);
   border-radius: 8px;
   cursor: pointer;
   background-color: rgb(94, 137, 90);
+}
+
+.inc:hover {
+  background-color: rgb(78, 146, 71);
 }
 
 .multipler {

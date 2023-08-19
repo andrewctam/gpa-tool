@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { LetterGrade } from './types';
 import GradeSlider from './components/GradeSlider.vue';
+import ScaleEditor from "./components/ScaleEditor.vue"
 
 const grades = ref<LetterGrade[]>([
     { letter: "A", count: 0, value: 4.0 },
@@ -17,12 +18,12 @@ const grades = ref<LetterGrade[]>([
     { letter: "F", count: 0, value: 0 }
 ])
 
-const creditsTarget = ref(120);
+const showScaleEditor = ref(false);
 
+const creditsTarget = ref(120);
 const creditsTotal = computed(() => {
     return grades.value.reduce((acc, grade) => acc + grade.count, 0);
 })
-
 const creditsLeft = computed(() => {
     return creditsTarget.value - creditsTotal.value;
 });
@@ -37,8 +38,8 @@ const gpa = computed(() => {
 })
 
 
-const updateGrade = (letter: string, count: number) => {
-    const grade = grades.value.find(grade => grade.letter === letter);
+const updateGradeCount = (index: number, count: number) => {
+    const grade = grades.value[index];
     if (grade) {
         count = Math.min(creditsLeft.value + grade.count, count);
         count = Math.max(0, count);
@@ -46,6 +47,25 @@ const updateGrade = (letter: string, count: number) => {
         grade.count = count;
     }
 }
+
+const updateGradeLetter = (index: number, newLetter: string) => {
+    if (grades.value.find(grade => grade.letter === newLetter)) {
+        return;
+    }
+    
+    const grade = grades.value[index];
+    if (grade) {
+        grade.letter = newLetter;
+    }
+}
+
+const updateGradeValue = (index: number, value: number) => {
+    const grade = grades.value[index];
+    if (grade) {
+        grade.value = value;
+    }
+}
+
 
 
 </script>
@@ -70,17 +90,35 @@ const updateGrade = (letter: string, count: number) => {
 
     </div>
 
-    <div class="sliders">
-        <GradeSlider 
-            v-for="(grade) in grades" 
+    <div v-if="showScaleEditor" class="scaleEditor">
+        <ScaleEditor 
+            v-for="(grade, index) in grades"
+            :letter="grade.letter"
+            :value="grade.value"
+            @update-letter="updateGradeLetter(index, $event)"
+            @update-value="updateGradeValue(index, $event)"
+            @delete="grades.splice(index, 1)"
+        />
+
+        <div
+            class="addNew"
+            @click="grades.push({ letter: '', count: 0, value: 0 })">
+            Add New
+        </div>
+        
+    </div>
+    <div v-else class="sliders">
+        <GradeSlider
+            v-for="(grade, index) in grades" 
             :letter="grade.letter" 
             :count="grade.count"
             :max="creditsTarget"
-            @update="updateGrade(grade.letter, $event)" />
+            @update="updateGradeCount(index, $event)" 
+        />
     </div>
 
-    <div class="edit">
-        Edit Grade Scale
+    <div class="edit" @click="showScaleEditor = !showScaleEditor">
+        {{ showScaleEditor ? "Close" : "Edit Grade Scale" }}
     </div>
 
 </template>
@@ -135,4 +173,22 @@ h1 {
     color: black;
 }
 
+.scaleEditor {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.addNew {
+    text-align: center;
+    cursor: pointer;
+    color: rgb(161, 196, 135);
+    margin-top: 8px;
+    margin-bottom: 40px;
+}
+
+.addNew:hover {
+    text-decoration: underline;
+    color: rgb(135, 196, 148);
+}
 </style>
