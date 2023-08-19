@@ -65,9 +65,6 @@ const updateGradeValue = (index: number, value: number) => {
         grade.value = value;
     }
 }
-
-
-
 </script>
 
 <template>
@@ -90,7 +87,7 @@ const updateGradeValue = (index: number, value: number) => {
 
     </div>
 
-    <div v-if="showScaleEditor" class="scaleEditor">
+    <div v-if="showScaleEditor" class="gridLayout">
         <ScaleEditor 
             v-for="(grade, index) in grades"
             :letter="grade.letter"
@@ -107,7 +104,7 @@ const updateGradeValue = (index: number, value: number) => {
         </div>
         
     </div>
-    <div v-else class="sliders">
+    <div v-else class="gridLayout">
         <GradeSlider
             v-for="(grade, index) in grades" 
             :letter="grade.letter" 
@@ -132,7 +129,7 @@ h1 {
     width: fit-content;
 }
 
-.sliders {
+.gridLayout {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     margin: auto;
@@ -158,7 +155,7 @@ h1 {
     margin-bottom: 16px;
     margin-left: auto;
     margin-right: auto;
-    background-color: rgb(114, 143, 168);
+    background-color: rgb(60, 65, 68);
     border-radius: 8px;
     padding: 16px;
 }
@@ -180,11 +177,19 @@ h1 {
 }
 
 .addNew {
-    text-align: center;
+    display: grid;
+    padding: 24px;
+    align-content: center;
+    justify-content: center;
     cursor: pointer;
     color: rgb(161, 196, 135);
-    margin-top: 8px;
-    margin-bottom: 40px;
+    border: 1px solid black;
+    background-color: rgb(94, 92, 90);
+    width: fit-content;
+    margin: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 16px;
 }
 
 .addNew:hover {

@@ -19,11 +19,13 @@ defineEmits<{
         <input 
             :value="letter"
             @change="$emit('updateLetter', ($event.target as HTMLInputElement).value)"
+            placeholder="Letter"
         />
         <input 
             type="number"
             :value="value"
             @change="$emit('updateValue', ($event.target as HTMLInputElement).valueAsNumber)"
+            placeholder="Value"
         />
         <span class="delete" @click="$emit('delete')">Delete</span>
     </div>
@@ -32,23 +34,25 @@ defineEmits<{
 
 <style scoped>
 .scaleEditor {
-    padding: 2px;
-    background-color: rgb(135, 137, 137);
-    border-radius: 4px;
-    margin: 4px;
-    
+    border: 1px solid black;
+    background-color: rgb(94, 92, 90);
+    padding: 12px;
+    margin: 8px;
+    border-radius: 16px;
 }
 
 input {
     padding: 6px;
     margin: 12px 4px;
     width: 80px;
+    border-radius: 8px;
+    border: none;
 }
 
 .delete {
     padding: 4px;
     margin: 4px;
-    color: rgb(53, 50, 50);
+    color: rgb(182, 152, 152);
     cursor: pointer;
     font-size: small;
 }
