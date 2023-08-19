@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 
 const props = defineProps<{
@@ -17,9 +17,6 @@ const creditLabel = computed(() => {
   return props.count === 1 ? `1 credit` : `${props.count} credits`;
 });
 
-const nums = [1, 2, 3, 4];
-const multiplier = ref(1);
-
 </script>
 
 <template>
@@ -36,22 +33,7 @@ const multiplier = ref(1);
       :max="max" 
       :value="count" 
       @input="$emit('update', ($event.target as HTMLInputElement).valueAsNumber)" 
-    />    
-
-    <div class="adder">
-      <div>
-        <button v-for="num in nums" @click="$emit('update', props.count + num * multiplier)" class="inc">
-          {{ `+${num}` }}
-        </button>
-      </div>
-
-      <div>
-        <label for="mult">
-          ×
-        </label>
-        <input id="mult" class="multipler" v-model="multiplier" type="number">
-      </div>
-    </div>
+    />
 
   </div>
 </template>
@@ -71,38 +53,9 @@ const multiplier = ref(1);
   margin-bottom: 4px;
 }
 
-
 .slider {
   width: 100%;
 }
 
-.inc {
-  padding: 4px 12px;
-  margin: 2px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: rgb(94, 137, 90);
-}
-
-.inc:hover {
-  background-color: rgb(78, 146, 71);
-}
-
-.multipler {
-  width: 48px;
-  border-radius: 4px;
-  padding: 2px;
-  border: none;
-  background-color: rgb(180, 175, 166);
-  color: black;
-}
-
-.adder {
-  display: grid;
-  gap: 8px;
-  align-items: center;
-  justify-items: center;
-}
 
 </style>

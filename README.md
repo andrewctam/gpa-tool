@@ -1,5 +1,7 @@
 # GPA Tool
-A GPA calculator with interactive adjustments, quick classes adding, and customizable scale
+A special GPA calculator that allows you to experiment with different grades and see how they affect your GPA. Unlike other calculators that have you enter in specific grades, this calculator only needs your current GPA, credit count, and credit target. Then, you can move around the various sliders and watch how your GPA will change.
+
+
 
 ## Technologies
 - [TypeScript](https://www.typescriptlang.org/download)
