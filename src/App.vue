@@ -1,28 +1,34 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { LetterGrade } from './types';
+import { computed, onMounted, ref, watch } from 'vue'
+import { LetterGrade, StoredData } from './types';
+import { DEFAULT_SCALE, DEFAULT_CREDIT_TARGET } from './constants'
 import GradeSlider from './components/GradeSlider.vue';
 import ScaleEditor from "./components/ScaleEditor.vue"
 
-const grades = ref<LetterGrade[]>([
-    { letter: "A", count: 0, value: 4.0 },
-    { letter: "A-", count: 0, value: 3.7 },
-    { letter: "B+", count: 0, value: 3.3 },
-    { letter: "B", count: 0, value: 3.0 },
-    { letter: "B-", count: 0, value: 2.7 },
-    { letter: "C+", count: 0, value: 2.3 },
-    { letter: "C", count: 0, value: 2.0 },
-    { letter: "C-", count: 0, value: 1.7 },
-    { letter: "D+", count: 0, value: 1.3 },
-    { letter: "D", count: 0, value: 1.0 },
-    { letter: "F", count: 0, value: 0 }
-])
-
-const showScaleEditor = ref(false);
-
+const grades = ref<LetterGrade[]>(JSON.parse(DEFAULT_SCALE))
 const currentGPA = ref(0);
 const currentCredits = ref(0);
-const targetCredits = ref(120);
+const targetCredits = ref(DEFAULT_CREDIT_TARGET);
+const showScaleEditor = ref(false);
+
+onMounted(() => {
+    const data = localStorage.getItem("data");
+    if (data) {
+        const parsed: StoredData = JSON.parse(data);
+
+        grades.value = parsed.grades;
+        currentGPA.value = parsed.currentGPA;
+        currentCredits.value = parsed.currentCredits;
+        targetCredits.value = parsed.targetCredits;
+    }
+})
+
+const isDefault = computed(() => {
+    return (currentGPA.value === 0 &&
+        currentCredits.value === 0 && 
+        targetCredits.value === DEFAULT_CREDIT_TARGET && 
+        JSON.stringify(grades.value) === DEFAULT_SCALE);
+})
 
 const creditsTotal = computed(() => {
     return grades.value.reduce((acc, grade) => acc + grade.count, 0);
@@ -51,11 +57,7 @@ const updateGradeCount = (index: number, count: number) => {
     }
 }
 
-const updateGradeLetter = (index: number, newLetter: string) => {
-    if (grades.value.find(grade => grade.letter === newLetter)) {
-        return;
-    }
-    
+const updateGradeLetter = (index: number, newLetter: string) => {    
     const grade = grades.value[index];
     if (grade) {
         grade.letter = newLetter;
@@ -68,6 +70,25 @@ const updateGradeValue = (index: number, value: number) => {
         grade.value = value;
     }
 }
+
+const reset = () => {
+    grades.value = JSON.parse(DEFAULT_SCALE);
+    currentGPA.value = 0;
+    currentCredits.value = 0;
+    targetCredits.value = DEFAULT_CREDIT_TARGET;
+}
+
+watch([currentGPA, currentCredits, targetCredits, grades], () => {
+    const data: StoredData = {
+        currentGPA: currentGPA.value,
+        currentCredits: currentCredits.value,
+        targetCredits: targetCredits.value,
+        grades: grades.value
+    }
+
+    localStorage.setItem("data", JSON.stringify(data));
+}, { deep: true })
+
 </script>
 
 <template>
@@ -135,6 +156,15 @@ const updateGradeValue = (index: number, value: number) => {
     <div class="edit" @click="showScaleEditor = !showScaleEditor">
         {{ showScaleEditor ? "Close" : "Edit Grade Scale" }}
     </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg"
+        v-if="!isDefault"
+        class="clear" @click="reset"
+         width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#cc2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+    </svg>
 
 </template>
 
@@ -220,5 +250,12 @@ h1 {
 .addNew:hover {
     text-decoration: underline;
     color: rgb(135, 196, 148);
+}
+
+.clear {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
 }
 </style>

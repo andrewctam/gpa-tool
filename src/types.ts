@@ -4,3 +4,10 @@ export interface LetterGrade {
     count: number,
     value: number,
 }
+
+export interface StoredData {
+    currentGPA: number,
+    currentCredits: number,
+    targetCredits: number,
+    grades: LetterGrade[]
+}
