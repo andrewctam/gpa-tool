@@ -23,11 +23,12 @@ const creditLabel = computed(() => {
   <div class="gradeSlider">
 
     <div class="info">
-      <span>{{ letter }}</span>
-      <span>{{ creditLabel }}</span>
+      <label :for="letter">{{ letter }}</label>
+      <label :for="letter">{{ creditLabel }}</label>
     </div>
 
     <input class="slider" 
+      :id="letter"
       type="range" 
       :min="0" 
       :max="max" 

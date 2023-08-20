@@ -97,12 +97,12 @@ watch([currentGPA, currentCredits, targetCredits, grades], () => {
     <div class="calc">
         <div>
             <div class="targetInput">
-                <label for="targetCredits">Current GPA:</label>
-                <input id="targetCredits" v-model="currentGPA" type="number">
+                <label for="currentGPA">Current GPA:</label>
+                <input id="currentGPA" v-model="currentGPA" type="number">
             </div>
             <div class="targetInput">
-                <label for="targetCredits">Current Credits:</label>
-                <input id="targetCredits" v-model="currentCredits" type="number">
+                <label for="currentCredits">Current Credits:</label>
+                <input id="currentCredits" v-model="currentCredits" type="number">
             </div>
             <div class="targetInput">
                 <label for="targetCredits">Target Credits:</label>
