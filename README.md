@@ -1,5 +1,5 @@
-# GPA Tool
-A special GPA calculator that allows you to experiment with different grades and see how they affect your GPA. Unlike other calculators that have you enter in specific grades, this calculator only needs your current GPA, credit count, and credit target. Then, you can move around the various sliders and watch how your GPA will change.
+# GPA Simulator
+A simulator that allows you to experiment with different grades and see how they affect your GPA. Unlike other calculators that have you enter in specific grades, this simulator only needs your current GPA, current credit count, and credit target. Then, you can move around the various sliders and watch how your GPA will change.
 
 ![Demo Image](demo.png)
 
@@ -11,9 +11,9 @@ A special GPA calculator that allows you to experiment with different grades and
 ## Installation
 
 ```
-git clone https://github.com/andrewctam/gpa-tool.git
+git clone https://github.com/andrewctam/gpa-simulator.git
 
-cd gpa-tool
+cd gpa-simulator
 
 npm install
 

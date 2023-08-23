@@ -92,7 +92,7 @@ watch([currentGPA, currentCredits, targetCredits, grades], () => {
 </script>
 
 <template>
-    <h1>GPA Tool</h1>
+    <h1>GPA Simulator</h1>
 
     <div class="calc">
         <div>
