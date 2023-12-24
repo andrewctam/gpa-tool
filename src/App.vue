@@ -112,7 +112,7 @@ watch([currentGPA, currentCredits, targetCredits, grades], () => {
 
         <div class="stats">
             <div>
-                {{ `GPA: ${gpa.toFixed(2)}` }}
+                {{ `GPA: ${gpa.toFixed(3)}` }}
             </div>
             <div>
                 {{ `Credits: ${creditsTotal + currentCredits}` }}
